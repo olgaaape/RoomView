@@ -56,6 +56,7 @@
 						$('#txtTitulo').val(calEvent.title);
 						$('#txtColor').val(calEvent.color);
 						$('#txtSala').val(calEvent.sala_no);
+						$('#txtEmp').val(calEvent.emp_no);
 
 						//Convierte el elemento en fecha y hora
 						FechaHora= calEvent.start._i.split(" ");
@@ -90,10 +91,11 @@
 		<!-- CONTENIDO-->
 		
 		<div id="contenido" class=" container-fluid pt-3">
-			
+			<input  class="btn btn-warning" type="button" value="Incidencias" id="verIncidencias" >
 				<div class="row p-4">
 					<div id="calendar" class="col-md-8 bg-white p-3 border border-secondary rounded offset-md-2"></div>
 				</div>
+				
 			
 			<!-- Modal para crear reserva -->
 			<div class="modal fade" id="ModalReserva" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -111,13 +113,17 @@
                                 <div class="form-row">
 									<div class="form-group col-md-2">
 										<label>Id: </label>
-										<input class="form-control" type="text" id="txtID" name="txtID" disabled>
+										<input class="form-control" type="text" id="txtID" name="txtID">
 									</div>
-									<div class="form-group col-md-5">
+									<div class="form-group col-md-3">
+										<label>Empleado: </label>
+										<input class="form-control" type="text" id="txtEmp" name="txtEmp" >
+									</div>
+									<div class="form-group col-md-3">
 										<label>Fecha: </label>
 										<input class="form-control" type="text" id="txtFecha" name="txtFecha" >
 									</div>
-									<div class="form-group col-md-5">
+									<div class="form-group col-md-4">
 										<label>Hora: </label>
 										<div class="input-group clockpicker" data-autoclose="true">
 											<input class="form-control" type="text" id="txtHora" name="txtHora">
@@ -156,6 +162,42 @@
 					</div>
 				</div>
 			</div>
+
+
+			<div class="modal fade" id="ModalVerIncidencias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="tituloEvento">DATOS DE RESERVA</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h2><?= (isset($msg))?$msg:"" ?></h2>
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">                               	
+									<table>
+										<?php foreach ($listIncidencias as $clave => $datosIncidencia): ?>
+											<tr>
+												<td><?= $clave ?></td>
+												<?php for($i=0; $i<count($datosIncidencia);$i++):?>
+												<td><?= $datosIncidencia[$i] ?></td>
+												<?php endfor;?>
+											</tr>
+										<?php endforeach; ?>
+									</table>
+                                
+                               
+                                
+                            </div>
+							<!-- Pie del modal -->
+							<div class="modal-footer">
+								<input  type="submit" name="orden" value="Modificar" class="btn btn-success">
+								<input type="submit" id="borrar" name="orden" value="Borrar" class="btn btn-danger" data-dismiss="modal">
+								<button type="button" id="cancelarIncidencias" class="btn btn-default">Cancelar</button>
+							</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		
 		<script>
@@ -165,6 +207,14 @@
 			$('#cancelar').click(function(){
 			
 				$("#ModalReserva").modal('toggle');
+			});
+
+			$('#cancelarIncidencias').click(function(){
+				$("#ModalVerIncidencias").modal('toggle');
+			});
+
+			$('#verIncidencias').click(function(){
+				$("#ModalVerIncidencias").modal();
 			});
 
 			$('#borrar').click(function(){

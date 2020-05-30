@@ -14,6 +14,9 @@ class modeloDB {
     private static $check_salas = "SELECT * FROM reserva WHERE sala_no = ? and dia = ? and hora = ?";
     private static $update_event= "UPDATE reserva set title=?, descripcion=?, color=?, start=?, sala_no=?, emp_no=?, hora=?, dia=? WHERE id=?";
     private static $delete_user= "DELETE FROM reserva where id=?";
+    private static $insert_incidence = "INSERT INTO incidencias (id_reserva,id_empleado,descripcion) VALUES (?,?,?)";
+    private static $select_incidence = "SELECT * from incidencias";
+    
     public static function init(){
         
         if (self::$dbh == null){
@@ -174,7 +177,34 @@ class modeloDB {
             return false;
         }
     }
-    
+    public static function addIncidencia($incidencia){
+        $stmt = self::$dbh->prepare(self::$insert_incidence);
+        $stmt->bindValue(1,$incidencia[0]);
+        $stmt->bindValue(2,$incidencia[1]);
+        $stmt->bindValue(3,$incidencia[2]);
+        if ($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public static function getIncidence(){
+        $stmt = self::$dbh->prepare(self::$select_incidence );
+        $stmt->execute();
+        $tIncidencias = [];
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        while ( $fila = $stmt->fetch()){
+            $datosIncidencia = [  
+                $fila['id'],             
+                $fila['id_reserva'],
+                $fila['id_empleado'],
+                $fila['descripcion']
+            ];
+            $tIncidencias[$fila['id']] = $datosIncidencia;
+            
+        }
+        return $tIncidencias;
+    }
     //-------FUNCION PARA CERRAR LA BASE DE DATOS------
     public static function closeDB(){
         self::$dbh = null;

@@ -136,12 +136,15 @@
 						<form  method="post" action="index.php?orden=ElegirSala">
 							<div class="modal-body">
 								<div class="form-row">
-									<input type="hidden" id="txtID" name="txtID"  >	
-									<div class="form-group col-md-5">
+									<div class="form-group col-md-4">
+										<label>Id: </label>
+										<input type="text" id="txtID" name="txtID" class="form-control">	
+									</div>
+									<div class="form-group col-md-4">
 										<label>Fecha: </label>
 										<input class="form-control" type="text" id="txtFecha" name="txtFecha" >
 									</div>
-									<div class="form-group col-md-5">
+									<div class="form-group col-md-4">
 										<label>Hora: </label>
 										<div class="input-group clockpicker" data-autoclose="true">
 											<input class="form-control" type="text" id="txtHora" name="txtHora">
@@ -166,14 +169,46 @@
 							<div class="modal-footer">
 								<input  type="submit" name="orden" value="Elegir Sala" id="ElegirSala"  class="btn btn-success">
 								<input type="submit" id="modificar" name="orden" value="Modificar" class="btn btn-success" data-dismiss="modal">
-								<input type="submit" id="borrar" name="orden" value="Borrar" class="btn btn-danger" data-dismiss="modal">
 								<button type="button" id="cancelar" class="btn btn-default">Cancelar</button>
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
+		
+
+
+		<div class="modal fade" id="ModalIncidencias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="tituloEvento">Modificación Reunión</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<form  method="post" action="index.php?orden=RegistrarIncidencia">
+							<div class="modal-body">								
+								<div class="form-group">
+									<label>Indique el Id de la reunión: </label>
+									<input type="text" id="idReunion" name="idReunion" class="form-control">	
+								</div>									
+								<div class="form-group">
+									<label>Descripcion:</label>
+									<textarea class="form-control" id="inciDescr" name="inciDescr" rows="3"></textarea>
+								</div>
+							</div>
+							<!-- Pie del modal -->
+							<div class="modal-footer">
+								<input  type="submit" name="orden" value="Enviar" id="EnviarIncidencia"  class="btn btn-success">
+								<button type="button" id="cancelarIncidencia" class="btn btn-default">Cancelar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
+
 		<script>
 			var NuevoEvento;
 
@@ -183,6 +218,13 @@
 			$('#cancelar').click(function(){
 			
 				$("#ModalReserva").modal('toggle');
+				
+			});
+
+			$('#cancelarIncidencia').click(function(){
+			
+				$("#ModalIncidencias").modal('toggle');
+			
 			});
 
 			$('#borrar').click(function(){
@@ -192,7 +234,8 @@
 
 			$('#modificar').click(function(){
 				
-				alert("Para poder modificar debes ser ADMIN");
+				$("#ModalIncidencias").modal();
+				
 			});
 			
 			$('.clockpicker').clockpicker();
