@@ -175,10 +175,9 @@
 							</button>
 						</div>
 						<div class="modal-body">                               	
-									<table>
+									<table><th>Id</th><th>NºReserva</th><th>Usuario</th><th>Descripcion</th>
 										<?php foreach ($listIncidencias as $clave => $datosIncidencia): ?>
 											<tr>
-												<td><?= $clave ?></td>
 												<?php for($i=0; $i<count($datosIncidencia);$i++):?>
 												<td><?= $datosIncidencia[$i] ?></td>
 												<?php endfor;?>
@@ -191,8 +190,6 @@
                             </div>
 							<!-- Pie del modal -->
 							<div class="modal-footer">
-								<input  type="submit" name="orden" value="Modificar" class="btn btn-success">
-								<input type="submit" id="borrar" name="orden" value="Borrar" class="btn btn-danger" data-dismiss="modal">
 								<button type="button" id="cancelarIncidencias" class="btn btn-default">Cancelar</button>
 							</div>
 					</div>
